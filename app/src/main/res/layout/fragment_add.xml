@@ -5,8 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".AddNoteActivity">
 
+    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
         android:layout_width="0dp"
@@ -18,7 +20,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingHorizontal="8dp">
@@ -42,7 +44,6 @@
                 android:hint="Title"
                 android:inputType="textCapSentences"
                 android:paddingStart="20dp"
-                android:paddingEnd="8dp"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textColorHint="#ffffff"
@@ -51,39 +52,58 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-
-    <ScrollView
-        android:id="@+id/scrollViewContent"
+    <!-- Formatting toolbar -->
+    <LinearLayout
+        android:id="@+id/formatToolbar"
+        android:orientation="horizontal"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fillViewport="true"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:gravity="center_vertical"
         app:layout_constraintTop_toBottomOf="@id/toolbar2"
-        app:layout_constraintBottom_toTopOf="@id/buttonSave"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/buttonBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_bold"
+            android:contentDescription="Bold"
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
-            <EditText
-                android:id="@+id/editTextContent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="20dp"
-                android:background="@android:drawable/edit_text"
-                android:gravity="top"
-                android:hint="Write your note here..."
-                android:inputType="textMultiLine"
-                android:maxLines="50"
-                android:minLines="12"
-                android:scrollbars="vertical"
-                android:textSize="16sp" />
-        </LinearLayout>
-    </ScrollView>
+        <ImageButton
+            android:id="@+id/buttonItalic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_italic"
+            android:contentDescription="Italic"
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
+        <ImageButton
+            android:id="@+id/buttonList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_list_bulleted"
+            android:contentDescription="List"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+    </LinearLayout>
+
+    <!-- RichEditor takes all space between toolbar and save button -->
+    <jp.wasabeef.richeditor.RichEditor
+        android:id="@+id/editor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/formatToolbar"
+        app:layout_constraintBottom_toTopOf="@id/buttonSave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Save button at bottom -->
     <Button
         android:id="@+id/buttonSave"
         android:text="Save Note"
@@ -91,9 +111,9 @@
         android:textColor="@android:color/white"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

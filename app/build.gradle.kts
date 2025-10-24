@@ -43,7 +43,7 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.cardview)
     val room_version = "2.8.2" //add
-
+    implementation("jp.wasabeef:richeditor-android:2.0.0")
     implementation("androidx.room:room-runtime:$room_version") //add
     implementation("androidx.room:room-ktx:$room_version") //add
 

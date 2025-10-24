@@ -1,4 +1,4 @@
-package com.example.coursework.ui.home
+package com.example.coursework.ui.favorite
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.coursework.AddNoteActivity
 import com.example.coursework.NoteAdapter
 import com.example.coursework.database.NoteDatabase
-import com.example.coursework.databinding.FragmentHomeBinding
+import com.example.coursework.databinding.FragmentFavoriteBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment() {
+class FavoriteFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: NoteAdapter
 
@@ -27,13 +27,12 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val view = binding.root
+        _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
+        val view: View = binding.root
         val recyclerView = binding.recyclerViewNotes
 
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         val db = NoteDatabase.getDatabase(requireContext())
-
         adapter = NoteAdapter(
             emptyList(),
             onNoteClick = { note ->
@@ -56,31 +55,14 @@ class HomeFragment : Fragment() {
                 ).show()
             }
         )
-
         recyclerView.adapter = adapter
 
         // Observe notes
         lifecycleScope.launch {
-            db.noteDao().getAllNotes().collect { notes ->
+            db.noteDao().getAllFavorites().collect { notes ->
                 adapter.updateNotes(notes)
             }
         }
-
-        // Handle delete button click
-        binding.fabDelete.setOnClickListener {
-            val selectedNotes = adapter.getSelectedNotes()
-            if (selectedNotes.isEmpty()) {
-                Toast.makeText(requireContext(), "No notes selected", Toast.LENGTH_SHORT).show()
-            } else {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    selectedNotes.forEach { note ->
-                        db.noteDao().deleteById(note.id)
-                    }
-                }
-                Toast.makeText(requireContext(), "Deleted ${selectedNotes.size} notes", Toast.LENGTH_SHORT).show()
-            }
-        }
-
         return view
     }
 
