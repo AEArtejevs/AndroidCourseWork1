@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coursework.database.Note
 
@@ -24,12 +25,14 @@ class NoteAdapter(
         private val title: TextView = itemView.findViewById(R.id.textTitle)
         private val content: TextView = itemView.findViewById(R.id.textContent)
         private val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
-//        private val buttonFavorite: View = itemView.findViewById(R.id.favorite)
         private val favorite: ImageButton = itemView.findViewById(R.id.favorite)
 
         fun bind(note: Note) {
             title.text = note.title
-            content.text = note.content
+            content.text = HtmlCompat.fromHtml(
+                note.content,
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
             checkBox.isChecked = selectedNotes.contains(note)
 
             favorite.visibility = if (showFavorites) View.VISIBLE else View.GONE
