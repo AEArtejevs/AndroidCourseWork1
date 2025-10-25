@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.coursework.AddNoteActivity
 import com.example.coursework.NoteAdapter
 import com.example.coursework.database.NoteDatabase
+import com.example.coursework.database.TrashNote
 import com.example.coursework.databinding.FragmentHomeBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
@@ -43,8 +45,15 @@ class HomeFragment : Fragment() {
                 startActivity(intent)
             },
             onNoteLongClick = { note ->
-                Toast.makeText(requireContext(), "Long pressed: ${note.title}", Toast.LENGTH_SHORT).show()
                 adapter.toggleFavoritesVisibility()
+                adapter.toggleCheckBoxesVisibility()
+                if (adapter.showCheckBoxes) {
+                    binding.fabDelete.show()
+                } else {
+                    binding.fabDelete.hide()
+                }
+                Toast.makeText(requireContext(), "Long pressed: ${note.title}", Toast.LENGTH_SHORT).show()
+
             },
             onFavoriteClick = { note ->
                 lifecycleScope.launch(Dispatchers.IO) {
@@ -71,13 +80,32 @@ class HomeFragment : Fragment() {
             val selectedNotes = adapter.getSelectedNotes()
             if (selectedNotes.isEmpty()) {
                 Toast.makeText(requireContext(), "No notes selected", Toast.LENGTH_SHORT).show()
-            } else {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    selectedNotes.forEach { note ->
-                        db.noteDao().deleteById(note.id)
-                    }
+                return@setOnClickListener
+            }
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                selectedNotes.forEach { note ->
+                    // Copy to trash first
+                    db.trashNoteDao().insert(
+                        TrashNote(
+                            title = note.title,
+                            content = note.content,
+                            timestamp = note.timestamp,
+                            isFavorite = note.isFavorite
+                        )
+                    )
+                    // Then remove from main table
+                    db.noteDao().deleteById(note.id)
                 }
-                Toast.makeText(requireContext(), "Deleted ${selectedNotes.size} notes", Toast.LENGTH_SHORT).show()
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Moved ${selectedNotes.size} notes to Trash",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    adapter.toggleFavoritesVisibility() // hide checkboxes again
+                }
             }
         }
 

@@ -24,7 +24,7 @@ class NoteAdapter(
         private val title: TextView = itemView.findViewById(R.id.textTitle)
         private val content: TextView = itemView.findViewById(R.id.textContent)
         private val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
-        private val buttonFavorite: View = itemView.findViewById(R.id.favorite)
+//        private val buttonFavorite: View = itemView.findViewById(R.id.favorite)
         private val favorite: ImageButton = itemView.findViewById(R.id.favorite)
 
         fun bind(note: Note) {
@@ -32,7 +32,7 @@ class NoteAdapter(
             content.text = note.content
             checkBox.isChecked = selectedNotes.contains(note)
 
-            buttonFavorite.visibility = if (showFavorites) View.VISIBLE else View.GONE
+            favorite.visibility = if (showFavorites) View.VISIBLE else View.GONE
             checkBox.visibility = if (showCheckBoxes) View.VISIBLE else View.GONE
 
             checkBox.setOnCheckedChangeListener { _, isChecked ->
@@ -58,9 +58,13 @@ class NoteAdapter(
 
     fun toggleFavoritesVisibility() {
         showFavorites = !showFavorites
+        notifyDataSetChanged()
+    }
+    fun toggleCheckBoxesVisibility() {
         showCheckBoxes = !showCheckBoxes
         notifyDataSetChanged()
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)
         return NoteViewHolder(view)

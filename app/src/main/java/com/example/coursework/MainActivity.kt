@@ -3,7 +3,10 @@ package com.example.coursework
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,6 +29,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val sharedPrefs = getSharedPreferences("settings", MODE_PRIVATE)
+        val theme = sharedPrefs.getString("theme", "system")
+
+        when (theme) {
+            "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
+
         // Set the toolbar as the app bar for consistent navigation behavior
         setSupportActionBar(binding.appBarMain.toolbar)
 
@@ -40,13 +52,12 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_home, R.id.nav_favorite, R.id.nav_slideshow),
+            setOf(R.id.nav_home, R.id.nav_favorite, R.id.nav_trash),
             drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
-
     // Inflate the top-right menu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
@@ -58,4 +69,25 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val sharedPrefs = getSharedPreferences("settings", MODE_PRIVATE)
+        val editor = sharedPrefs.edit()
+
+        return when (item.itemId) {
+            R.id.light_mode -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                editor.putString("theme", "light").apply() // save choice
+                Toast.makeText(this, "Light Mode Enabled", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.dark_mode -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                editor.putString("theme", "dark").apply() // save choice
+                Toast.makeText(this, "Dark Mode Enabled", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 }

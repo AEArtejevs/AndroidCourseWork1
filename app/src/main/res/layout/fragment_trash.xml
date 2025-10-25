@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".ui.trash.TrashFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewNotes"
@@ -15,31 +15,6 @@
         tools:layout_editor_absoluteY="0dp"
         tools:listitem="@layout/item_note" />
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fabDelete"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="24dp"-->
-<!--        android:contentDescription="Delete selected notes"-->
-<!--        android:src="@drawable/ic_menu_delete"-->
-<!--        app:backgroundTint="?attr/colorError"-->
-<!--        app:tint="@android:color/white"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabDelete"
         android:layout_width="wrap_content"
@@ -47,11 +22,13 @@
         android:layout_gravity="bottom|start"
         android:layout_marginStart="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-        app:backgroundTint="?attr/colorError"
         android:visibility="gone"
+
+        app:backgroundTint="?attr/colorError"
 
         app:srcCompat="@android:drawable/ic_menu_delete"
         app:tint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

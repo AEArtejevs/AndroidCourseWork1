@@ -44,6 +44,7 @@ class FavoriteFragment : Fragment() {
             onNoteLongClick = { note ->
                 Toast.makeText(requireContext(), "Long pressed: ${note.title}", Toast.LENGTH_SHORT).show()
                 adapter.toggleFavoritesVisibility()
+//                adapter.toggleCheckBoxesVisibility()
             },
             onFavoriteClick = { note ->
                 lifecycleScope.launch(Dispatchers.IO) {
