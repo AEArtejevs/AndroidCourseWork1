@@ -34,7 +34,7 @@ class TrashFragment : Fragment() {
         val recyclerView = binding.recyclerViewNotes
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        // Reuse NoteAdapter for simplicity — just show read-only trash items
+        // Reuse NoteAdapter for simplicity - just show read-only trash items
         adapter = TrashNoteAdapter(
             emptyList(),
             onNoteClick = { note ->
@@ -47,9 +47,7 @@ class TrashFragment : Fragment() {
                 } else {
                     binding.fabDelete.hide()
                 }
-                Toast.makeText(requireContext(), "Hold to restore (not yet implemented)", Toast.LENGTH_SHORT).show()
             },
-//            onFavoriteClick = { /* No favorite toggle in Trash */ }
         )
         recyclerView.adapter = adapter
 

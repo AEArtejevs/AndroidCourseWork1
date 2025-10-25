@@ -23,8 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddNoteActivity"
-            android:theme="@style/Theme.CourseWork.NoActionBar"
-        />
+            android:theme="@style/Theme.CourseWork.NoActionBar" />
+
 
     </application>
 

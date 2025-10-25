@@ -1,10 +1,13 @@
 package com.example.coursework
 
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.toColorInt
 import androidx.lifecycle.lifecycleScope
 import com.example.coursework.database.Note
 import com.example.coursework.database.NoteDatabase
@@ -22,18 +25,41 @@ class AddNoteActivity : AppCompatActivity() {
 
     private lateinit var saveButton: Button
     private var currentNoteId: Int? = null
-    val db = NoteDatabase.getDatabase(this)
-    val noteDao = db.noteDao()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Use your existing note editor layout
         setContentView(R.layout.fragment_add)
-
+        val db = NoteDatabase.getDatabase(this)
+        val noteDao = db.noteDao()
         val backButton = findViewById<android.widget.ImageButton>(R.id.btnBackFromAddNote)
         titleInput = findViewById(R.id.editTextHeaderTitle)
         editor = findViewById(R.id.editor)
         saveButton = findViewById(R.id.buttonSave)
+
+        // Toolbar actions buttons
+        val buttonBold = findViewById<ImageButton>(R.id.buttonBold)
+        val buttonItalic = findViewById<ImageButton>(R.id.buttonItalic)
+        val buttonList = findViewById<ImageButton>(R.id.buttonList)
+
+        buttonBold.setOnClickListener { editor.setBold() }
+        buttonItalic.setOnClickListener { editor.setItalic() }
+        buttonList.setOnClickListener { editor.setBullets() }
+
+        // --- tint icons based on dark mode ---
+        val formatButtons = listOf(buttonBold, buttonItalic, buttonList)
+        val isDarkMode = isNightModeActive(this)
+        val tintColor = if (isDarkMode) Color.WHITE else Color.BLACK
+        formatButtons.forEach { it.setColorFilter(tintColor) }
+
+        //  editor setup
+        if (isDarkMode) {
+            editor.setEditorBackgroundColor("#1E1E1E".toColorInt())
+            editor.setEditorFontColor(Color.WHITE)
+        } else {
+            editor.setEditorBackgroundColor(Color.WHITE)
+            editor.setEditorFontColor(Color.BLACK)
+        }
 
         // RichEditor setup
         editor.setEditorFontSize(16)
@@ -53,10 +79,6 @@ class AddNoteActivity : AppCompatActivity() {
                 }
             }
         }
-        // Toolbar actions buttons
-        findViewById<ImageButton>(R.id.buttonBold)?.setOnClickListener { editor.setBold() }
-        findViewById<ImageButton>(R.id.buttonItalic)?.setOnClickListener { editor.setItalic() }
-        findViewById<ImageButton>(R.id.buttonList)?.setOnClickListener { editor.setBullets() }
 
         backButton.setOnClickListener { finish() }
 
@@ -83,5 +105,12 @@ class AddNoteActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) { finish() }
             }
         }
+
     }
+    private fun isNightModeActive(context: Context): Boolean {
+        val uiMode = context.resources.configuration.uiMode
+        return (uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
+                android.content.res.Configuration.UI_MODE_NIGHT_YES
+    }
+
 }
