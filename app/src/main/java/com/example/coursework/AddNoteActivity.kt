@@ -40,17 +40,55 @@ class AddNoteActivity : AppCompatActivity() {
         // Toolbar actions buttons
         val buttonBold = findViewById<ImageButton>(R.id.buttonBold)
         val buttonItalic = findViewById<ImageButton>(R.id.buttonItalic)
+        val buttonUnderline = findViewById<ImageButton>(R.id.buttonUnderline)
+        val buttonStrikethrough = findViewById<ImageButton>(R.id.buttonStrikethrough)
         val buttonList = findViewById<ImageButton>(R.id.buttonList)
+        val buttonNumberedList = findViewById<ImageButton>(R.id.buttonNumberedList)
+        val buttonAlignLeft = findViewById<ImageButton>(R.id.buttonAlignLeft)
+        val buttonAlignCenter = findViewById<ImageButton>(R.id.buttonAlignCenter)
+        val buttonAlignRight = findViewById<ImageButton>(R.id.buttonAlignRight)
+        val buttonUndo = findViewById<ImageButton>(R.id.buttonUndo)
+        val buttonRedo = findViewById<ImageButton>(R.id.buttonRedo)
+//        val buttonH1 = findViewById<ImageButton>(R.id.buttonH1)
+//        val buttonH2 = findViewById<ImageButton>(R.id.buttonH2)
+//        val buttonTextColor = findViewById<ImageButton>(R.id.buttonTextColor)
+//        val buttonBgColor = findViewById<ImageButton>(R.id.buttonBgColor)
 
         buttonBold.setOnClickListener { editor.setBold() }
         buttonItalic.setOnClickListener { editor.setItalic() }
+        buttonUnderline.setOnClickListener { editor.setUnderline() }
+        buttonStrikethrough.setOnClickListener { editor.setStrikeThrough() }
         buttonList.setOnClickListener { editor.setBullets() }
+        buttonNumberedList.setOnClickListener { editor.setNumbers() }
 
-        // --- tint icons based on dark mode ---
-        val formatButtons = listOf(buttonBold, buttonItalic, buttonList)
+        buttonAlignLeft.setOnClickListener { editor.setAlignLeft() }
+        buttonAlignCenter.setOnClickListener { editor.setAlignCenter() }
+        buttonAlignRight.setOnClickListener { editor.setAlignRight() }
+
+        buttonUndo.setOnClickListener { editor.undo() }
+        buttonRedo.setOnClickListener { editor.redo() }
+
+
+
+        //  tint icons based on dark mode 
+        val formatButtons = listOf(
+            buttonBold,
+            buttonItalic,
+            buttonList,
+            buttonNumberedList,
+            buttonUnderline,
+            buttonStrikethrough,
+            buttonAlignLeft,
+            buttonAlignCenter,
+            buttonAlignRight,
+            buttonUndo,
+            buttonRedo
+        )
         val isDarkMode = isNightModeActive(this)
         val tintColor = if (isDarkMode) Color.WHITE else Color.BLACK
-        formatButtons.forEach { it.setColorFilter(tintColor) }
+        formatButtons.forEach {
+            it.setColorFilter(tintColor)
+        }
 
         //  editor setup
         if (isDarkMode) {

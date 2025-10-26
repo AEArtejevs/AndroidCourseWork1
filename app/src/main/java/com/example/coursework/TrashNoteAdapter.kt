@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coursework.database.TrashNote
 
@@ -28,7 +29,10 @@ class TrashNoteAdapter(
             checkBox.isChecked = selectedNotes.contains(note)
             checkBox.visibility = if (showCheckBoxes) View.VISIBLE else View.GONE
 
-
+            content.text = HtmlCompat.fromHtml(
+                note.content,
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
             checkBox.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) selectedNotes.add(note)
                 else selectedNotes.remove(note)

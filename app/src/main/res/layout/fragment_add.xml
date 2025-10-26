@@ -67,46 +67,134 @@
         android:layout_marginBottom="8dp"
         android:textColor="?android:textColorPrimary"
         app:layout_constraintTop_toBottomOf="@id/toolbar2"
-        app:layout_constraintBottom_toTopOf="@id/formatToolbar"
+        app:layout_constraintBottom_toTopOf="@id/formatToolbarScroll"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Formatting toolbar -->
-    <LinearLayout
-        android:id="@+id/formatToolbar"
-        android:orientation="horizontal"
+    <HorizontalScrollView
+        android:id="@+id/formatToolbarScroll"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:gravity="center_vertical"
+        android:scrollbars="none"
+        android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@id/buttonSave"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
+    <LinearLayout
+        android:id="@+id/formatToolbar"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:gravity="center_vertical">
 
         <ImageButton
             android:id="@+id/buttonBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_format_bold"
-            android:contentDescription="Bold"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            android:contentDescription="Bold" />
 
         <ImageButton
             android:id="@+id/buttonItalic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_format_italic"
-            android:contentDescription="Italic"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            android:contentDescription="Italic"/>
 
         <ImageButton
             android:id="@+id/buttonList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_format_list_bulleted"
-            android:contentDescription="List"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            android:contentDescription="List" />
+        <ImageButton
+            android:id="@+id/buttonNumberedList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_list_bulleted"
+            android:contentDescription="List"/>
+        <ImageButton
+            android:id="@+id/buttonUnderline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_underlined"
+            android:contentDescription="Underline" />
+
+        <ImageButton
+            android:id="@+id/buttonStrikethrough"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_strikethrough"
+            android:contentDescription="Strikethrough" />
+
+        <ImageButton
+            android:id="@+id/buttonAlignLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_align_left"
+            android:contentDescription="Align Left" />
+
+        <ImageButton
+            android:id="@+id/buttonAlignCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_align_center"
+            android:contentDescription="Align Center" />
+
+        <ImageButton
+            android:id="@+id/buttonAlignRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_align_right"
+            android:contentDescription="Align Right" />
+
+        <ImageButton
+            android:id="@+id/buttonUndo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_undo"
+            android:contentDescription="Undo" />
+
+        <ImageButton
+            android:id="@+id/buttonRedo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_redo"
+            android:contentDescription="Redo" />
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/buttonH1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_format_h1"-->
+<!--            android:contentDescription="Heading 1" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/buttonH2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_format_h2"-->
+<!--            android:contentDescription="Heading 2" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/buttonTextColor"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_text_color"-->
+<!--            android:contentDescription="Text Color" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/buttonBgColor"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_bg_color"-->
+<!--            android:contentDescription="Background Color" />-->
+
     </LinearLayout>
+    </HorizontalScrollView>
 
 <!--     Save button at bottom -->
     <Button
