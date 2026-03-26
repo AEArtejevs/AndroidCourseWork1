@@ -1,14 +1,21 @@
 <resources>
     <string name="app_name">CourseWork</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+
     <string name="light_mode">Light Mode</string>
     <string name="dark_mode">Dark Mode</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_favorites">Favorites</string>
     <string name="menu_trash">Trash</string>
+    <string name="menu_reminders">Reminders</string>
+
+    <string name="add_reminder">Add Reminder</string>
+    <string name="no_reminders">No reminders yet</string>
 </resources>

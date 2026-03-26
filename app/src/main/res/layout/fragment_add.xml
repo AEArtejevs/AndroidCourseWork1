@@ -114,7 +114,7 @@
             android:id="@+id/buttonNumberedList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_format_list_bulleted"
+            android:src="@drawable/ic_format_list_numeric"
             android:contentDescription="List"/>
         <ImageButton
             android:id="@+id/buttonUnderline"

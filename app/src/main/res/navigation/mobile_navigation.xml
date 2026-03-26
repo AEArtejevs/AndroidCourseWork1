@@ -22,4 +22,8 @@
         android:name="com.example.coursework.ui.trash.TrashFragment"
         android:label="@string/menu_trash"
         tools:layout="@layout/fragment_trash" />
+    <fragment
+        android:id="@+id/nav_reminders"
+        android:name="com.example.coursework.ui.reminder.ReminderFragment"
+        android:label="@string/menu_reminders" />
 </navigation>
