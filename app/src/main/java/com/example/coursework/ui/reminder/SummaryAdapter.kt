@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.coursework.R
 
 class SummaryAdapter(
-    private val items: List<Pair<String, Int>>
+    private var items: List<Pair<String, Int>>
 ) : RecyclerView.Adapter<SummaryAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -29,4 +29,9 @@ class SummaryAdapter(
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun updateData(newData: List<Pair<String, Int>>) {
+        items = newData
+        notifyDataSetChanged()
+    }
 }

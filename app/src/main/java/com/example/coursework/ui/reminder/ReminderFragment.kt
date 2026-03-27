@@ -38,7 +38,10 @@ class ReminderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val summaryRecycler = view.findViewById<RecyclerView>(R.id.recyclerSummary)
-        summaryRecycler.adapter = SummaryAdapter(viewModel.summaryList)
+//        summaryRecycler.adapter = SummaryAdapter(viewModel.summaryList)
+        val summaryAdapter = SummaryAdapter(emptyList())
+        summaryRecycler.adapter = summaryAdapter
+
         val remindersRecycler = view.findViewById<RecyclerView>(R.id.recyclerReminders)
 
         summaryRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -57,6 +60,11 @@ class ReminderFragment : Fragment() {
                 }
 
                 remindersRecycler.adapter = ReminderAdapter(list)
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.summaryFlow.collect { summary ->
+                summaryAdapter.updateData(summary)
             }
         }
     }
