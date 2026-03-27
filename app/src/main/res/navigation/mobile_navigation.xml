@@ -25,5 +25,6 @@
     <fragment
         android:id="@+id/nav_reminders"
         android:name="com.example.coursework.ui.reminder.ReminderFragment"
-        android:label="@string/menu_reminders" />
+        android:label="@string/menu_reminders"
+        tools:layout="@layout/fragment_reminder" />
 </navigation>

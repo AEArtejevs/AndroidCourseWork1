@@ -1,4 +1,5 @@
-package com.example.coursework.database
+package com.example.coursework.database.note
+
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert

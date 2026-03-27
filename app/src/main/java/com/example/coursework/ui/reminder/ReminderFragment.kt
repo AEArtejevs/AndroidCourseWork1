@@ -31,22 +31,7 @@ class ReminderFragment : Fragment() {
         remindersRecycler.layoutManager = LinearLayoutManager(requireContext())
 
         summaryRecycler.adapter = SummaryAdapter(viewModel.summaryList)
-        remindersRecycler.adapter = ReminderAdapter(viewModel.reminderList)
-
-        val summaryList = listOf(
-            "Today" to 0,
-            "Scheduled" to 2,
-            "Important" to 1,
-            "Place" to 0,
-            "No alert" to 1,
-            "Completed" to 0
-        )
-
-        val reminderList = listOf(
-            "Inga" to "Thu, Oct 2, 2025",
-            "Maris dzimšanas d" to "Tue, Dec 15, 8:00 AM",
-            "Learn figma basics" to "No alert"
-        )
+        remindersRecycler.adapter = ReminderAdapter(viewModel.reminderEntityList)
 
     }
 }

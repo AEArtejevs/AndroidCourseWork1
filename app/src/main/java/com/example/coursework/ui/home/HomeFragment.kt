@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.coursework.AddNoteActivity
 import com.example.coursework.NoteAdapter
 import com.example.coursework.database.NoteDatabase
-import com.example.coursework.database.TrashNote
+import com.example.coursework.database.trash.TrashNote
 import com.example.coursework.databinding.FragmentHomeBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

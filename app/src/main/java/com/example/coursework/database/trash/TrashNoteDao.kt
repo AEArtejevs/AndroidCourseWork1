@@ -1,4 +1,5 @@
-package com.example.coursework.database
+package com.example.coursework.database.trash
+
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query

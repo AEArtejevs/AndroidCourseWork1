@@ -1,4 +1,4 @@
-package com.example.coursework.database
+package com.example.coursework.database.trash
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -8,7 +8,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.coursework.database.Note
+import com.example.coursework.database.note.Note
 
 class NoteAdapter(
     private var notes: List<Note>,

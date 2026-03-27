@@ -9,7 +9,7 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.lifecycleScope
-import com.example.coursework.database.Note
+import com.example.coursework.database.note.Note
 import com.example.coursework.database.NoteDatabase
 import jp.wasabeef.richeditor.RichEditor
 import kotlinx.coroutines.Dispatchers

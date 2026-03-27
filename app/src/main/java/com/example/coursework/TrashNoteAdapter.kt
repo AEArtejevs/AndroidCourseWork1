@@ -7,7 +7,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.coursework.database.TrashNote
+import com.example.coursework.database.trash.TrashNote
 
 class TrashNoteAdapter(
     private var trashNotes: List<TrashNote>,

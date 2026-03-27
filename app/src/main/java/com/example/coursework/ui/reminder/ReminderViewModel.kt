@@ -14,8 +14,8 @@ class ReminderViewModel : ViewModel() {
         "Completed" to 0
     )
 
-    // Reminder list (main list)
-    val reminderList = listOf(
+    // ReminderEntity list (main list)
+    val reminderEntityList = listOf(
         "Inga" to "Thu, Oct 2, 2025",
         "Maris dzimšanas d" to "Tue, Dec 15, 8:00 AM",
         "Learn figma basics" to "No alert"
