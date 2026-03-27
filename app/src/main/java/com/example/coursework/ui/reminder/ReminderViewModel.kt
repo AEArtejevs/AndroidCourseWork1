@@ -1,8 +1,14 @@
 package com.example.coursework.ui.reminder
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.example.coursework.database.NoteDatabase
 
-class ReminderViewModel : ViewModel() {
+class ReminderViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val dao = NoteDatabase.getDatabase(application).reminderDao()
+
+    val reminders = dao.getAllReminders()
 
     // Summary data (top grid)
     val summaryList = listOf(
@@ -14,10 +20,4 @@ class ReminderViewModel : ViewModel() {
         "Completed" to 0
     )
 
-    // ReminderEntity list (main list)
-    val reminderEntityList = listOf(
-        "Inga" to "Thu, Oct 2, 2025",
-        "Maris dzimšanas d" to "Tue, Dec 15, 8:00 AM",
-        "Learn figma basics" to "No alert"
-    )
 }

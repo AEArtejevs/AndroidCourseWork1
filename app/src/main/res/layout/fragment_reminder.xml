@@ -4,7 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="12dp">
-
+    <Button
+        android:id="@+id/btnAddReminder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Reminder" />
     <!-- GRID (Today, Scheduled, etc.) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSummary"
