@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -58,6 +59,17 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        // Disable addNote FAB for Reminders section only
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.nav_reminders || 
+                destination.id == R.id.reminderListFragment || 
+                destination.id == R.id.reminderDetailFragment) {
+                binding.appBarMain.addNote.visibility = View.GONE
+            } else {
+                binding.appBarMain.addNote.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun checkPermissions() {

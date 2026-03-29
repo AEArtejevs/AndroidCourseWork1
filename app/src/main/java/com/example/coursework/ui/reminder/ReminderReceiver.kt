@@ -10,39 +10,13 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.example.coursework.MainActivity
 import com.example.coursework.R
-import com.example.coursework.database.NoteDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class ReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-            // Re-schedule all reminders after a reboot
-            rescheduleAllReminders(context)
-        } else {
-            // Handle specific reminder alert
-            val title = intent.getStringExtra("title") ?: "Reminder"
-            val reminderId = intent.getIntExtra("id", -1)
-            
-            // Only show notification if it's a valid reminder ID (not 0 or -1 from a system broadcast)
-            if (reminderId != -1) {
-                showNotification(context, title, reminderId)
-            }
-        }
-    }
+        val title = intent.getStringExtra("title") ?: "Reminder"
+        val reminderId = intent.getIntExtra("id", 0)
 
-    private fun rescheduleAllReminders(context: Context) {
-        val scheduler = ReminderScheduler(context)
-        val db = NoteDatabase.getDatabase(context)
-        CoroutineScope(Dispatchers.IO).launch {
-            val reminders = db.reminderDao().getAllRemindersOnce()
-            reminders.forEach { reminder ->
-                if (!reminder.isCompleted && reminder.hasAlert) {
-                    scheduler.schedule(reminder)
-                }
-            }
-        }
+        showNotification(context, title, reminderId)
     }
 
     private fun showNotification(context: Context, title: String, reminderId: Int) {
@@ -68,7 +42,7 @@ class ReminderReceiver : BroadcastReceiver() {
         )
 
         val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_time) // Make sure this exists or use ic_launcher
             .setContentTitle("Reminder")
             .setContentText(title)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
