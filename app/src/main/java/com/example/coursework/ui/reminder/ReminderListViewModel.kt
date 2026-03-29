@@ -20,6 +20,7 @@ class ReminderListViewModel(application: Application) : AndroidViewModel(applica
             "Important" -> dao.getImportantRemindersFlow()
             "No alert" -> dao.getNoAlertRemindersFlow()
             "Completed" -> dao.getCompletedRemindersFlow()
+            "Place" -> dao.getPlaceRemindersFlow()
             else -> emptyFlow()
         }
     }

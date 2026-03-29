@@ -11,7 +11,7 @@ import com.example.coursework.database.reminder.ReminderEntity
 import com.example.coursework.database.trash.TrashNote
 import com.example.coursework.database.trash.TrashNoteDao
 
-@Database(entities = [Note::class, TrashNote::class, ReminderEntity::class], version = 6, exportSchema = false)
+@Database(entities = [Note::class, TrashNote::class, ReminderEntity::class], version = 8, exportSchema = false)
 
 abstract class NoteDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao

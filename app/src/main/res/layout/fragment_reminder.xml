@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Main Content (Summary + Past) -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/mainContentScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomContainer"
@@ -43,6 +45,17 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <!-- Search Results Section (Initially Hidden) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerSearchResults"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="12dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bottomContainer"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_reminder" />
 
     <FrameLayout
         android:id="@+id/bottomContainer"
@@ -105,12 +118,11 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDelete"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Delete"
                 android:textColor="@android:color/holo_red_dark"
-                app:icon="@drawable/ic_menu_delete"
                 app:iconTint="@android:color/holo_red_dark" />
 
             <View
@@ -120,7 +132,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCancelDelete"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cancel"

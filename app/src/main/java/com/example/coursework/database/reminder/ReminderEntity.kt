@@ -14,5 +14,12 @@ data class ReminderEntity(
 
     val isImportant: Boolean = false,
     val hasAlert: Boolean = true,
-    val isCompleted: Boolean = false
+    val isCompleted: Boolean = false,
+
+    // --- Location API Modification ---
+    val hasLocationAlert: Boolean = false,
+    val locationName: String? = null,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
+    val radius: Float? = null
 )
