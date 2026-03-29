@@ -10,13 +10,43 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.example.coursework.MainActivity
 import com.example.coursework.R
+import com.example.coursework.database.NoteDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val title = intent.getStringExtra("title") ?: "Reminder"
-        val reminderId = intent.getIntExtra("id", 0)
+        // If the system sends a BOOT_COMPLETED broadcast, we just reschedule alarms
+        if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
+            rescheduleAllReminders(context)
+            return
+        }
 
-        showNotification(context, title, reminderId)
+        // For actual reminder alarms, we expect a valid ID and title
+        // Default ID is -1 to distinguish from a generic/empty intent
+        val title = intent.getStringExtra("title")
+        val reminderId = intent.getIntExtra("id", -1)
+
+        // SAFETY CHECK: Only show notification if title is NOT null and ID is NOT -1 or 0
+        // (0 is sometimes passed as a default by the system or stale intents)
+        if (!title.isNullOrBlank() && reminderId > 0) {
+            showNotification(context, title, reminderId)
+        }
+    }
+
+    private fun rescheduleAllReminders(context: Context) {
+        val scheduler = ReminderScheduler(context)
+        val db = NoteDatabase.getDatabase(context)
+        CoroutineScope(Dispatchers.IO).launch {
+            val reminders = db.reminderDao().getAllRemindersOnce()
+            reminders.forEach { reminder ->
+                // Reschedule only future, non-completed reminders
+                if (!reminder.isCompleted && reminder.hasAlert && !reminder.hasLocationAlert) {
+                    scheduler.schedule(reminder)
+                }
+            }
+        }
     }
 
     private fun showNotification(context: Context, title: String, reminderId: Int) {
@@ -42,7 +72,7 @@ class ReminderReceiver : BroadcastReceiver() {
         )
 
         val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_time) // Make sure this exists or use ic_launcher
+            .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("Reminder")
             .setContentText(title)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

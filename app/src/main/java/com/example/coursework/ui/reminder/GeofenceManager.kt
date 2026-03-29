@@ -17,7 +17,9 @@ class GeofenceManager(private val context: Context) {
     private val geofencingClient = LocationServices.getGeofencingClient(context)
 
     private val geofencePendingIntent: PendingIntent by lazy {
-        val intent = Intent(context, GeofenceBroadcastReceiver::class.java)
+        val intent = Intent(context, GeofenceBroadcastReceiver::class.java).apply {
+            action = "com.example.coursework.ACTION_GEOFENCE_EVENT"
+        }
         PendingIntent.getBroadcast(
             context,
             0,
@@ -35,8 +37,8 @@ class GeofenceManager(private val context: Context) {
         val geofence = Geofence.Builder()
             .setRequestId(reminder.id.toString())
             .setCircularRegion(
-                reminder.latitude!!,
-                reminder.longitude!!,
+                reminder.latitude,
+                reminder.longitude,
                 reminder.radius ?: 100f
             )
             .setExpirationDuration(Geofence.NEVER_EXPIRE)
@@ -44,7 +46,8 @@ class GeofenceManager(private val context: Context) {
             .build()
 
         val geofencingRequest = GeofencingRequest.Builder()
-            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+            // Fixed: Set initial trigger to 0 so it doesn't alert immediately if user is already in the zone
+            .setInitialTrigger(0)
             .addGeofence(geofence)
             .build()
 
