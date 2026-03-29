@@ -9,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +23,7 @@ import com.example.coursework.database.NoteDatabase
 import com.example.coursework.database.reminder.ReminderEntity
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import java.util.Locale
 
 
 class ReminderFragment : Fragment() {
@@ -38,30 +41,33 @@ class ReminderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val summaryRecycler = view.findViewById<RecyclerView>(R.id.recyclerSummary)
-//        summaryRecycler.adapter = SummaryAdapter(viewModel.summaryList)
-        val summaryAdapter = SummaryAdapter(emptyList())
+        val summaryAdapter = SummaryAdapter(emptyList()) { category ->
+            val action = ReminderFragmentDirections.actionNavRemindersToReminderListFragment(category)
+            findNavController().navigate(action)
+        }
         summaryRecycler.adapter = summaryAdapter
 
         val remindersRecycler = view.findViewById<RecyclerView>(R.id.recyclerReminders)
+        val reminderAdapter = ReminderAdapter(emptyList()) { reminder ->
+            val action = ReminderFragmentDirections.actionNavRemindersToReminderDetailFragment(reminder.id)
+            findNavController().navigate(action)
+        }
+        remindersRecycler.adapter = reminderAdapter
 
         summaryRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
         remindersRecycler.layoutManager = LinearLayoutManager(requireContext())
 
-        val btnAdd = view.findViewById<Button>(R.id.btnAddReminder)
+        val btnAdd = view.findViewById<ImageButton>(R.id.btnAddReminder)
         btnAdd.setOnClickListener {
             showAddReminderDialog()
         }
 
         lifecycleScope.launch {
-            viewModel.reminders.collect { reminders ->
-
-                val list = reminders.map {
-                    it.title to "${it.date} ${it.time}"
-                }
-
-                remindersRecycler.adapter = ReminderAdapter(list)
+            viewModel.pastReminders.collect { reminders ->
+                reminderAdapter.updateData(reminders)
             }
         }
+
         lifecycleScope.launch {
             viewModel.summaryFlow.collect { summary ->
                 summaryAdapter.updateData(summary)
@@ -78,16 +84,20 @@ class ReminderFragment : Fragment() {
         val btnSave = dialogView.findViewById<Button>(R.id.btnSave)
 
         val calendar = Calendar.getInstance()
+        var technicalDate = String.format(Locale.US, "%04d-%02d-%02d", 
+            calendar.get(Calendar.YEAR), 
+            calendar.get(Calendar.MONTH) + 1, 
+            calendar.get(Calendar.DAY_OF_MONTH))
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
             .create()
 
-
         tvDate.setOnClickListener {
             DatePickerDialog(
                 requireContext(), { _, y, m, d ->
                     calendar.set(y, m, d)
+                    technicalDate = String.format(Locale.US, "%04d-%02d-%02d", y, m + 1, d)
                     tvDate.text = "$d/${m + 1}/$y"
                 },
                 calendar.get(Calendar.YEAR),
@@ -101,7 +111,7 @@ class ReminderFragment : Fragment() {
                 requireContext(), { _, h, min ->
                     calendar.set(Calendar.HOUR_OF_DAY, h)
                     calendar.set(Calendar.MINUTE, min)
-                    tvTime.text = "$h:${min.toString().padStart(2, '0')}"
+                    tvTime.text = String.format(Locale.US, "%02d:%02d", h, min)
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
@@ -117,7 +127,7 @@ class ReminderFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            saveReminder(title, tvDate.text.toString(), tvTime.text.toString())
+            saveReminder(title, technicalDate, tvTime.text.toString())
             dialog.dismiss()
         }
 
@@ -138,6 +148,4 @@ class ReminderFragment : Fragment() {
             )
         }
     }
-
-
 }

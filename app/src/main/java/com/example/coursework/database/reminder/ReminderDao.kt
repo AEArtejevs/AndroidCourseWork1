@@ -18,15 +18,26 @@ interface ReminderDao {
     @Query("SELECT * FROM reminders ORDER BY id DESC")
     fun getAllReminders(): Flow<List<ReminderEntity>>
 
-    @Query("SELECT * FROM reminders WHERE isImportant = 1")
-    suspend fun getImportantReminders(): List<ReminderEntity>
+    @Query("SELECT * FROM reminders WHERE id = :id")
+    fun getReminderById(id: Int): Flow<ReminderEntity?>
 
-    @Query("SELECT * FROM reminders WHERE hasAlert = 0")
-    suspend fun getNoAlertReminders(): List<ReminderEntity>
+    @Query("SELECT * FROM reminders WHERE date < :today ORDER BY date DESC, time DESC")
+    fun getPastReminders(today: String): Flow<List<ReminderEntity>>
 
-    @Query("SELECT * FROM reminders WHERE isCompleted = 1")
-    suspend fun getCompletedReminders(): List<ReminderEntity>
+    @Query("SELECT * FROM reminders WHERE date = :today ORDER BY time ASC")
+    fun getTodayReminders(today: String): Flow<List<ReminderEntity>>
 
+    @Query("SELECT * FROM reminders WHERE date > :today ORDER BY date ASC, time ASC")
+    fun getScheduledReminders(today: String): Flow<List<ReminderEntity>>
+
+    @Query("SELECT * FROM reminders WHERE isImportant = 1 ORDER BY date ASC, time ASC")
+    fun getImportantRemindersFlow(): Flow<List<ReminderEntity>>
+
+    @Query("SELECT * FROM reminders WHERE hasAlert = 0 ORDER BY date ASC, time ASC")
+    fun getNoAlertRemindersFlow(): Flow<List<ReminderEntity>>
+
+    @Query("SELECT * FROM reminders WHERE isCompleted = 1 ORDER BY date ASC, time ASC")
+    fun getCompletedRemindersFlow(): Flow<List<ReminderEntity>>
 
     @Query("SELECT COUNT(*) FROM reminders")
     fun getTotalCount(): Flow<Int>
@@ -45,6 +56,4 @@ interface ReminderDao {
 
     @Query("SELECT COUNT(*) FROM reminders WHERE date > :today")
     fun getScheduledCount(today: String): Flow<Int>
-
-
 }

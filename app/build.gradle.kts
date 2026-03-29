@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp") // add
+    id("com.google.devtools.ksp")
+    alias(libs.plugins.navigation.safeargs.kotlin)
 }
 
 android {
@@ -42,13 +43,13 @@ android {
 dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.cardview)
-    val room_version = "2.8.2" //add
+    val room_version = "2.8.2"
     implementation("jp.wasabeef:richeditor-android:2.0.0")
-    implementation("androidx.room:room-runtime:$room_version") //add
-    implementation("androidx.room:room-ktx:$room_version") //add
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
 
     // Use KSP for Kotlin
-    ksp("androidx.room:room-compiler:$room_version") //add
+    ksp("androidx.room:room-compiler:$room_version")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

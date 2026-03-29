@@ -22,9 +22,40 @@
         android:name="com.example.coursework.ui.trash.TrashFragment"
         android:label="@string/menu_trash"
         tools:layout="@layout/fragment_trash" />
+
     <fragment
         android:id="@+id/nav_reminders"
         android:name="com.example.coursework.ui.reminder.ReminderFragment"
         android:label="@string/menu_reminders"
-        tools:layout="@layout/fragment_reminder" />
+        tools:layout="@layout/fragment_reminder">
+        <action
+            android:id="@+id/action_nav_reminders_to_reminderDetailFragment"
+            app:destination="@+id/reminderDetailFragment" />
+        <action
+            android:id="@+id/action_nav_reminders_to_reminderListFragment"
+            app:destination="@+id/reminderListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/reminderDetailFragment"
+        android:name="com.example.coursework.ui.reminder.ReminderDetailFragment"
+        android:label="Reminder Detail"
+        tools:layout="@layout/fragment_reminder_detail">
+        <argument
+            android:name="reminderId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/reminderListFragment"
+        android:name="com.example.coursework.ui.reminder.ReminderListFragment"
+        android:label="Reminders"
+        tools:layout="@layout/fragment_reminder_list">
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_reminderListFragment_to_reminderDetailFragment"
+            app:destination="@+id/reminderDetailFragment" />
+    </fragment>
 </navigation>

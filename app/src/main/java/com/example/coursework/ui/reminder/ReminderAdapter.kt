@@ -6,9 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coursework.R
+import com.example.coursework.database.reminder.ReminderEntity
 
 class ReminderAdapter(
-    private val items: List<Pair<String, String>>
+    private var items: List<ReminderEntity>,
+    private val onItemClick: (ReminderEntity) -> Unit
 ) : RecyclerView.Adapter<ReminderAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -23,10 +25,28 @@ class ReminderAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val (title, date) = items[position]
-        holder.tvTitle.text = title
-        holder.tvDate.text = date
+        val item = items[position]
+        holder.tvTitle.text = item.title
+
+        val displayDate = try {
+            val parts = item.date.split("-")
+            if (parts.size == 3) {
+                "${parts[2]}/${parts[1].toInt()}/${parts[0]}"
+            } else {
+                item.date
+            }
+        } catch (e: Exception) {
+            item.date
+        }
+        
+        holder.tvDate.text = "$displayDate ${item.time}"
+        holder.itemView.setOnClickListener { onItemClick(item) }
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun updateData(newItems: List<ReminderEntity>) {
+        items = newItems
+        notifyDataSetChanged()
+    }
 }
