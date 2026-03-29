@@ -8,13 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.coursework.R
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
@@ -25,10 +28,12 @@ class ReminderDetailFragment : Fragment() {
     private val args: ReminderDetailFragmentArgs by navArgs()
 
     private lateinit var etTitle: EditText
-    private lateinit var btnDate: Button
-    private lateinit var btnTime: Button
+    private lateinit var btnDate: MaterialButton
+    private lateinit var btnTime: MaterialButton
     private lateinit var btnSave: Button
     private lateinit var tvLastModified: TextView
+    private lateinit var btnBack: ImageButton
+    private lateinit var toggleImportant: ToggleButton
 
     private var technicalDate: String = ""
     private var selectedTime: String = ""
@@ -49,6 +54,12 @@ class ReminderDetailFragment : Fragment() {
         btnTime = view.findViewById(R.id.btnTime)
         btnSave = view.findViewById(R.id.btnSave)
         tvLastModified = view.findViewById(R.id.tvLastModified)
+        btnBack = view.findViewById(R.id.btnBack)
+        toggleImportant = view.findViewById(R.id.toggleImportant)
+
+        btnBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         viewModel.loadReminder(args.reminderId)
 
@@ -58,12 +69,13 @@ class ReminderDetailFragment : Fragment() {
                     etTitle.setText(it.title)
                     technicalDate = it.date
                     selectedTime = it.time
+                    toggleImportant.isChecked = it.isImportant
                     
                     // Display friendly date
                     try {
                         val parts = it.date.split("-")
                         if (parts.size == 3) {
-                            btnDate.text = "${parts[2]}/${parts[1]}/${parts[0]}"
+                            btnDate.text = "${parts[2]}/${parts[1].toInt()}/${parts[0]}"
                         } else {
                             btnDate.text = it.date
                         }
@@ -83,6 +95,7 @@ class ReminderDetailFragment : Fragment() {
                 requireContext(), { _, y, m, d ->
                     technicalDate = String.format(Locale.US, "%04d-%02d-%02d", y, m + 1, d)
                     btnDate.text = "$d/${m + 1}/$y"
+                    btnDate.error = null
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -95,6 +108,7 @@ class ReminderDetailFragment : Fragment() {
                 requireContext(), { _, h, min ->
                     selectedTime = String.format(Locale.US, "%02d:%02d", h, min)
                     btnTime.text = selectedTime
+                    btnTime.error = null
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
@@ -104,17 +118,32 @@ class ReminderDetailFragment : Fragment() {
 
         btnSave.setOnClickListener {
             val title = etTitle.text.toString()
+            var isValid = true
+
             if (title.isBlank()) {
                 etTitle.error = "Required"
-                return@setOnClickListener
+                isValid = false
             }
+
+            if (technicalDate.isBlank()) {
+                btnDate.error = "Required"
+                isValid = false
+            }
+
+            if (selectedTime.isBlank()) {
+                btnTime.error = "Required"
+                isValid = false
+            }
+
+            if (!isValid) return@setOnClickListener
 
             val currentReminder = viewModel.reminder.value
             if (currentReminder != null) {
                 val updatedReminder = currentReminder.copy(
                     title = title,
                     date = technicalDate,
-                    time = selectedTime
+                    time = selectedTime,
+                    isImportant = toggleImportant.isChecked
                 )
                 viewModel.updateReminder(updatedReminder)
                 findNavController().navigateUp()

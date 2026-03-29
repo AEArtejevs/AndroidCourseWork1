@@ -8,7 +8,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
+        app:layout_constraintBottom_toTopOf="@+id/bottomContainer"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -44,50 +44,88 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Bottom Bar Container -->
-    <LinearLayout
-        android:id="@+id/bottomBar"
+    <FrameLayout
+        android:id="@+id/bottomContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Search Bar with Add Button Inside -->
+        <!-- Search Bar with Add Button -->
         <LinearLayout
+            android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@drawable/bg_card"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:paddingHorizontal="8dp">
+            android:padding="16dp">
 
-            <!-- Small Rounded Add Button -->
-            <ImageButton
-                android:id="@+id/btnAddReminder"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Add Reminder"
-                android:src="@android:drawable/ic_input_add"
-                app:tint="?attr/colorOnSurface" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_card"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="8dp">
 
-            <!-- Search Bar -->
-            <EditText
-                android:id="@+id/etSearch"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:hint="Search"
-                android:paddingHorizontal="8dp"
-                android:singleLine="true"
-                android:textColor="?attr/colorOnSurface"
-                android:textColorHint="?android:attr/textColorSecondary" />
+                <ImageButton
+                    android:id="@+id/btnAddReminder"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Add Reminder"
+                    android:src="@android:drawable/ic_input_add"
+                    app:tint="?attr/colorOnSurface" />
 
+                <EditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="Search"
+                    android:paddingHorizontal="8dp"
+                    android:singleLine="true"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textColorHint="?android:attr/textColorSecondary" />
+            </LinearLayout>
         </LinearLayout>
 
-    </LinearLayout>
+        <!-- Delete Bar (Visible only when selecting) -->
+        <LinearLayout
+            android:id="@+id/deleteBar"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="?attr/colorSurface"
+            android:elevation="8dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelete"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:textColor="@android:color/holo_red_dark"
+                app:icon="@drawable/ic_menu_delete"
+                app:iconTint="@android:color/holo_red_dark" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelDelete"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textColor="?attr/colorOnSurface" />
+        </LinearLayout>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
