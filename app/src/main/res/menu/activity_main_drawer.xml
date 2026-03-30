@@ -18,7 +18,7 @@
             android:title="@string/menu_trash" />
         <item
             android:id="@+id/nav_reminders"
-            android:icon="@drawable/ic_trash"
+            android:icon="@drawable/ic_reminder"
             android:title="@string/menu_reminders" />
     </group>
 </menu>
