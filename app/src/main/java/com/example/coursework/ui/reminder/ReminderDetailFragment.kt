@@ -78,7 +78,6 @@ class ReminderDetailFragment : Fragment() {
         btnTime = view.findViewById(R.id.btnTime)
         btnSave = view.findViewById(R.id.btnSave)
         tvLastModified = view.findViewById(R.id.tvLastModified)
-        btnBack = view.findViewById(R.id.btnBack)
         toggleImportant = view.findViewById(R.id.toggleImportant)
         switchAlert = view.findViewById(R.id.switchAlert)
         switchMap = view.findViewById(R.id.switchMap)
@@ -120,10 +119,6 @@ class ReminderDetailFragment : Fragment() {
                 }
             }
         })
-
-        btnBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
 
         viewModel.loadReminder(args.reminderId)
 
