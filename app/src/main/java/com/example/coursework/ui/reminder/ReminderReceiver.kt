@@ -42,7 +42,7 @@ class ReminderReceiver : BroadcastReceiver() {
             val reminders = db.reminderDao().getAllRemindersOnce()
             reminders.forEach { reminder ->
                 // Reschedule only future, non-completed reminders
-                if (!reminder.isCompleted && reminder.hasAlert && !reminder.hasLocationAlert) {
+                if (reminder.hasAlert && !reminder.hasLocationAlert) {
                     scheduler.schedule(reminder)
                 }
             }

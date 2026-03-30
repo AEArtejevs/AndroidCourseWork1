@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -32,7 +31,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -393,7 +391,7 @@ class ReminderFragment : Fragment() {
                 time = time,
                 isImportant = isImportant,
                 hasAlert = hasAlert,
-                isCompleted = false,
+//                isCompleted = false,
                 hasLocationAlert = hasLocationAlert,
                 locationName = locationName,
                 latitude = lat,
@@ -409,7 +407,7 @@ class ReminderFragment : Fragment() {
             time = time, 
             isImportant = isImportant, 
             hasAlert = hasAlert, 
-            isCompleted = false,
+//            isCompleted = false,
             hasLocationAlert = hasLocationAlert, 
             locationName = locationName, 
             latitude = lat, 

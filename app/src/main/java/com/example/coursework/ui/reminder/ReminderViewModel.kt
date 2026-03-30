@@ -34,7 +34,6 @@ class ReminderViewModel(application: Application) : AndroidViewModel(application
     val todayCount = dao.getTodayCount(today)
     val scheduledCount = dao.getScheduledCount(today)
     val important = dao.getImportantCount()
-    val completed = dao.getCompletedCount()
     val noAlert = dao.getNoAlertCount()
     val placeCount = dao.getPlaceCount()
 
@@ -44,16 +43,14 @@ class ReminderViewModel(application: Application) : AndroidViewModel(application
         scheduledCount,
         important,
         noAlert,
-        completed,
         placeCount
     ) { results: Array<Int> ->
         listOf(
             "Today" to results[0],
             "Scheduled" to results[1],
             "Important" to results[2],
-            "Place" to results[5],
-            "No alert" to results[3],
-            "Completed" to results[4]
+            "Place" to results[4],
+            "No alert" to results[3]
         )
     }
 

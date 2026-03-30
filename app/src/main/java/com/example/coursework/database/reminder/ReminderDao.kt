@@ -46,9 +46,6 @@ interface ReminderDao {
     @Query("SELECT * FROM reminders WHERE hasAlert = 0 AND hasLocationAlert = 0 ORDER BY date ASC, time ASC")
     fun getNoAlertRemindersFlow(): Flow<List<ReminderEntity>>
 
-    @Query("SELECT * FROM reminders WHERE isCompleted = 1 ORDER BY date ASC, time ASC")
-    fun getCompletedRemindersFlow(): Flow<List<ReminderEntity>>
-
     @Query("SELECT * FROM reminders WHERE hasLocationAlert = 1 ORDER BY id DESC")
     fun getPlaceRemindersFlow(): Flow<List<ReminderEntity>>
 
@@ -57,9 +54,6 @@ interface ReminderDao {
 
     @Query("SELECT COUNT(*) FROM reminders WHERE isImportant = 1")
     fun getImportantCount(): Flow<Int>
-
-    @Query("SELECT COUNT(*) FROM reminders WHERE isCompleted = 1")
-    fun getCompletedCount(): Flow<Int>
 
     @Query("SELECT COUNT(*) FROM reminders WHERE hasAlert = 0 AND hasLocationAlert = 0")
     fun getNoAlertCount(): Flow<Int>
