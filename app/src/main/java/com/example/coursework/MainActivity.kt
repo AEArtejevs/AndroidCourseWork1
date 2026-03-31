@@ -27,12 +27,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+    companion object {
+        private const val PERMISSION_REQUEST_CODE = 123
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        checkPermissions()
+        checkAndRequestPermissions()
 
         val sharedPrefs = getSharedPreferences("settings", MODE_PRIVATE)
         val theme = sharedPrefs.getString("theme", "system")
@@ -72,10 +76,39 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkPermissions() {
+    private fun checkAndRequestPermissions() {
+        val permissions = mutableListOf<String>()
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // Note: On Android 11+, it's recommended to request background location separately
+                // but for simplicity we add it here. The OS will handle the flow.
+                permissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            }
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 101)
+                permissions.add(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+
+        if (permissions.isNotEmpty()) {
+            ActivityCompat.requestPermissions(this, permissions.toTypedArray(), PERMISSION_REQUEST_CODE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permissions granted for location reminders", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Location permissions are required for location reminders to work", Toast.LENGTH_LONG).show()
             }
         }
     }
